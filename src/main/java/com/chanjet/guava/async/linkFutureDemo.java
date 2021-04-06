@@ -1,9 +1,8 @@
-package com.jangni.guava.async;
+package com.chanjet.guava.async;
 
 import com.google.common.util.concurrent.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.concurrent.DefaultManagedAwareThreadFactory;
 
 import java.util.concurrent.*;
 

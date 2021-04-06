@@ -1,4 +1,4 @@
-package com.jangni.guava;
+package com.chanjet.guava;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
