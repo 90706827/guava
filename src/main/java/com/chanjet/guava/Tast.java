@@ -11,36 +11,93 @@ import java.util.concurrent.Future;
  * @Description
  **/
 public class Tast extends BaseService {
+    int sum = 1000;
 
+    public List<String> excec() {
+        List<String> resultc = new ArrayList<>();
 
-    public List<String> exce() {
-        List<String> result = new ArrayList<>();
+        List<Future<String>> c = new ArrayList<>();
 
-        List<Future<String>> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add(pool2.submit(() -> {
+        for (int i = 0; i < sum; i++) {
+            c.add(service.submit(() -> {
                 Thread.sleep(1000);
-                return "a";
+                return "c";
             }));
         }
 
-        for (Future<String> rest : list) {
+        for (Future<String> rest : c) {
             try {
-                result.addAll(Collections.singleton(rest.get()));
+                resultc.addAll(Collections.singleton(rest.get()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        return result;
+
+        return resultc;
+    }
+
+    public List<String> excea() {
+        List<String> resulta = new ArrayList<>();
+
+        List<Future<String>> a = new ArrayList<>();
+
+        for (int i = 0; i < sum; i++) {
+            a.add(threadPoolTaskExecutor.submit(() -> {
+                Thread.sleep(1000);
+                return "a";
+            }));
+        }
+
+        for (Future<String> rest : a) {
+            try {
+                resulta.addAll(Collections.singleton(rest.get()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return resulta;
+    }
+
+    public List<String> exceb() {
+        List<String> resultb = new ArrayList<>();
+
+        List<Future<String>> b = new ArrayList<>();
+
+        for (int i = 0; i < sum; i++) {
+            b.add(threadPoolExecutor.submit(() -> {
+                Thread.sleep(1000);
+                return "b";
+            }));
+        }
+
+        for (Future<String> rest : b) {
+            try {
+                resultb.addAll(Collections.singleton(rest.get()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return resultb;
     }
 
     public static void main(String[] args) {
         Long start = System.currentTimeMillis();
         Tast tast = new Tast();
-        List<String> result = tast.exce();
-        System.out.println(result.size());
-        System.out.println(System.currentTimeMillis() - start);
+        List<String> result = tast.excea();
+        logger.info("{}",result.size());
+        logger.info("threadPoolTaskExecutor:{}",System.currentTimeMillis() - start);
+
+        start = System.currentTimeMillis();
+        result = tast.exceb();
+        logger.info("{}",result.size());
+        logger.info("threadPoolExecutor:{}",System.currentTimeMillis() - start);
+
+        start = System.currentTimeMillis();
+        result = tast.excec();
+        logger.info("{}",result.size());
+        logger.info("service:{}",System.currentTimeMillis() - start);
     }
 
 }

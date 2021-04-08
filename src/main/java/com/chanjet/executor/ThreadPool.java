@@ -16,7 +16,6 @@ import java.util.concurrent.*;
  * @date 2021/4/3 16:34
  **/
 public class ThreadPool<T> {
-    public static final Logger logger = LoggerFactory.getLogger("base");
 
     /**
      * 默认策略，阻塞队列满，则丢任务、抛出异常
@@ -68,13 +67,5 @@ public class ThreadPool<T> {
         threadPoolExecutor.shutdownNow();
     }
 
-    public static void main(String[] args) {
-        ThreadPool threadPool = new ThreadPool();
-        threadPool.submit(() -> {
-            logger.info("---------");
-            return "";
-        });
-        threadPool.shutdown();
-    }
 
 }
