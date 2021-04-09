@@ -13,8 +13,7 @@ public class CustomRejectedExecutionHandler implements RejectedExecutionHandler 
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
         //记录异常
         //报警处理
-        throw new RejectedExecutionException("Task " + r.toString() +
-                " rejected from " +
-                executor.toString());
+//        CustomThreadPool.work.execute(r);
+        throw new RejectedExecutionException("Task " + r.toString() + " rejected from " + executor.toString());
     }
 }

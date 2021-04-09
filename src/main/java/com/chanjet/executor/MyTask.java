@@ -22,7 +22,7 @@ public class MyTask implements Runnable {
         logger.info(Thread.currentThread().getName() + "线程做任务" + i);
 
         try {
-            Thread.sleep(10000L);
+            Thread.sleep(100L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

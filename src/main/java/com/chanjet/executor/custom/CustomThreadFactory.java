@@ -1,5 +1,8 @@
 package com.chanjet.executor.custom;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -8,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Date 2021/4/9 0:09
  **/
 public class CustomThreadFactory implements ThreadFactory {
+    private static final Logger logger = LoggerFactory.getLogger(CustomThreadFactory.class);
     private AtomicInteger count = new AtomicInteger(0);
 
     private final String name;
@@ -20,7 +24,7 @@ public class CustomThreadFactory implements ThreadFactory {
     public Thread newThread(Runnable r) {
         Thread t = new Thread(r);
         String threadName = name + "-" + count.addAndGet(1);
-        System.out.println(threadName);
+        logger.info("创建线程：" + threadName);
         t.setName(threadName);
         return t;
     }
