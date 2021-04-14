@@ -7,11 +7,15 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 1、设置线程名称；
+ * 2、设置线程优先级
+ * 3、线程排序
+ *
  * @Author Mr.Jimmy
  * @Date 2021/4/9 0:09
  **/
 public class CustomThreadFactory implements ThreadFactory {
-    private static final Logger logger = LoggerFactory.getLogger(CustomThreadFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger("task");
     private AtomicInteger count = new AtomicInteger(0);
 
     private final String name;

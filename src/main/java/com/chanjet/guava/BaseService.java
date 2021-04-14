@@ -69,6 +69,7 @@ public class BaseService {
         threadPoolExecutor = new ThreadPoolExecutor(20, 1000,
                 120, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(),
                 new ThreadFactoryBuilder().setNameFormat("base_service-pool-%d").build());
+        threadPoolExecutor.allowCoreThreadTimeOut(true);
         return threadPoolExecutor;
     }
 }

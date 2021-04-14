@@ -1,6 +1,8 @@
 package com.chanjet.executor.custom;
 
-import java.util.concurrent.RejectedExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -9,11 +11,11 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @Date 2021/4/9 0:13
  **/
 public class CustomRejectedExecutionHandler implements RejectedExecutionHandler {
+    private static final Logger logger = LoggerFactory.getLogger("task");
+
     @Override
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-        //记录异常
-        //报警处理
-//        CustomThreadPool.work.execute(r);
-        throw new RejectedExecutionException("Task " + r.toString() + " rejected from " + executor.toString());
+        //记录异常 报警处理
+        logger.error("Task " + r.toString() + " rejected from " + executor.toString());
     }
 }
