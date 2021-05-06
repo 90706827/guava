@@ -17,5 +17,15 @@ public class CustomRejectedExecutionHandler implements RejectedExecutionHandler 
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
         //记录异常 报警处理
         logger.error("Task " + r.toString() + " rejected from " + executor.toString());
+        logger.error("----------------------------------------------------");
+        logger.error("核心线程数:{}", executor.getCorePoolSize());
+        logger.error("线程池数:{}", executor.getPoolSize());
+        logger.error("队列任务数:{}", executor.getQueue().size());
+        logger.error("----------------------------------------------------");
     }
+
+    public void AbortPolicy(){
+
+    }
+
 }

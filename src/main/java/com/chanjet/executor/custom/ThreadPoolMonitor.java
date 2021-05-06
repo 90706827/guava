@@ -13,11 +13,14 @@ import java.util.concurrent.TimeUnit;
  **/
 public abstract class ThreadPoolMonitor {
     public static final Logger logger = LoggerFactory.getLogger("task");
-    protected ThreadPoolExecutor pool;
+    public static final Logger loggerBase = LoggerFactory.getLogger("base");
+
+    protected ThreadPoolExecutor pool = getThreadPoolExecutor();
+
     private static ThreadPoolExecutor work = new ThreadPoolExecutor(
             1,
             1,
-            0,
+            30,
             TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>(),
             new CustomThreadFactory("Monitor-Thread-Pool"),
@@ -25,24 +28,35 @@ public abstract class ThreadPoolMonitor {
 
     public void monitor() {
         work.execute(() -> {
-            while (pool.isTerminating()) {
-                try {
-                    Thread.sleep(1000L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            while (pool.getPoolSize() >= 0) {
+                print();
+                if (pool.getPoolSize() == 0) {
+                    print();
+                    pool.shutdown();
+                    work.shutdown();
+                    break;
                 }
-                logger.info("----------------------------------------------------");
-                logger.info("核心线程数:{}", pool.getCorePoolSize());
-                logger.info("线程池数:{}", pool.getPoolSize());
-                logger.info("队列任务数:{}", pool.getQueue().size());
-                logger.info("----------------------------------------------------");
             }
+
         });
     }
 
+    private void print() {
+        try {
+            Thread.sleep(1000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        loggerBase.info("----------------------------------------------------");
+        loggerBase.info("核心线程数:{}", pool.getCorePoolSize());
+        loggerBase.info("线程池数:{}", pool.getPoolSize());
+        loggerBase.info("队列任务数:{}", pool.getQueue().size());
+        loggerBase.info("----------------------------------------------------");
+    }
+
     public void start() {
-        monitor();
         test();
+        monitor();
     }
 
     /**

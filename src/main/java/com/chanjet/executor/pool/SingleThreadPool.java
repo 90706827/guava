@@ -13,11 +13,8 @@ import java.util.concurrent.*;
  **/
 public class SingleThreadPool extends ThreadPoolMonitor {
 
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private ExecutorService newSingle = Executors.newSingleThreadExecutor();
 
-    public SingleThreadPool() {
-        super.pool = getThreadPoolExecutor();
-    }
 
     @Override
     public ThreadPoolExecutor getThreadPoolExecutor() {
@@ -25,7 +22,7 @@ public class SingleThreadPool extends ThreadPoolMonitor {
                 1,
                 0,
                 TimeUnit.MILLISECONDS,
-                new PriorityBlockingQueue<>(),
+                new LinkedBlockingQueue<>(),
                 new CustomThreadFactory("Single-Thread-Pool"),
                 new CustomRejectedExecutionHandler());
     }

@@ -8,11 +8,11 @@ import java.util.concurrent.*;
  **/
 public class ThreadPoolDemo {
     public static void main(String[] args) {
-        ExecutorService newCached = Executors.newCachedThreadPool();
-        ExecutorService newFixed = Executors.newFixedThreadPool(10);
-        ExecutorService newSingle = Executors.newSingleThreadExecutor();
+        ExecutorService executorService1 = Executors.newCachedThreadPool();
+        ExecutorService executorService2 = Executors.newFixedThreadPool(10);
+        ExecutorService executorService3 = Executors.newSingleThreadExecutor();
         for (int i = 0; i < 100; i++) {
-            newFixed.execute(new MyTask(i));
+            executorService2.execute(new Task(i));
         }
     }
 }
