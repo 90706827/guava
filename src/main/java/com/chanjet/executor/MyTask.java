@@ -15,7 +15,7 @@ public class MyTask implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(MyTask.class);
 
-    private int i;
+    public int i;
 
     public MyTask(int i) {
         this.i = i;
@@ -25,14 +25,11 @@ public class MyTask implements Runnable {
     public void run() {
 
         logger.info(Thread.currentThread().getName() + "线程开始任务>" + i);
-        Student student = new Student();
-        student.setName("asdfasdfasdfasdfasdfasdfasdfasdfsdfsdf");
-        student.setAddress("asdfasdfasdfasdfasdfasdfsdfsdfasdfsadfasdfasdfasdfsdfasdf");
         try {
             Thread.sleep(1000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        logger.info(Thread.currentThread().getName() + "线程完成任务" + i);
+//        logger.info(Thread.currentThread().getName() + "线程完成任务" + i);
     }
 }

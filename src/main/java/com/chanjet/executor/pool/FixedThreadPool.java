@@ -21,10 +21,10 @@ public class FixedThreadPool extends ThreadPoolMonitor {
     public ThreadPoolExecutor getThreadPoolExecutor() {
         pool = new ThreadPoolExecutor(
                 10,
-                10,
+                20,
                 0L,
                 TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>(20),
+                new ArrayBlockingQueue<>(10),
                 new CustomThreadFactory("Sync-Thread-Pool"),
                 new CustomRejectedExecutionHandler());
         pool.allowCoreThreadTimeOut(false);

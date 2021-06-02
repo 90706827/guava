@@ -1,5 +1,6 @@
 package com.chanjet.executor.custom;
 
+import com.chanjet.executor.MyTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,19 +14,20 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class CustomRejectedExecutionHandler implements RejectedExecutionHandler {
     private static final Logger logger = LoggerFactory.getLogger("task");
 
-    @Override
-    public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-        //记录异常 报警处理
-        logger.error("Task " + r.toString() + " rejected from " + executor.toString());
-        logger.error("----------------------------------------------------");
-        logger.error("核心线程数:{}", executor.getCorePoolSize());
-        logger.error("线程池数:{}", executor.getPoolSize());
-        logger.error("队列任务数:{}", executor.getQueue().size());
-        logger.error("----------------------------------------------------");
+    CustomRejectedExecutionHandler() {
+        super();
     }
 
-    public void AbortPolicy(){
+    @Override
+    public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+        MyTask task = (MyTask) r;
 
+        String msg = String.format("Thread pool Wain Info:" +
+                        " Task [%d], Pool Size: %d (active: %d, core: %d, max: %d, largest: %d), Task: %d (completed: %d)," +
+                        " Executor status:(isShutdown:%s, isTerminated:%s, isTerminating:%s)",
+                task.i, e.getPoolSize(), e.getActiveCount(), e.getCorePoolSize(), e.getMaximumPoolSize(), e.getLargestPoolSize(),
+                e.getTaskCount(), e.getCompletedTaskCount(), e.isShutdown(), e.isTerminated(), e.isTerminating());
+        logger.warn(msg);
     }
 
 }
