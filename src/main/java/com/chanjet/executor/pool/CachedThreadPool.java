@@ -18,13 +18,13 @@ public class CachedThreadPool extends ThreadPoolMonitor {
     @Override
     public ThreadPoolExecutor getThreadPoolExecutor() {
         pool = new ThreadPoolExecutor(
-                2,
-                7,
-                5,
+                10,
+                10,
+                60,
                 TimeUnit.SECONDS,
-                new SynchronousQueue<>(),
+                new LinkedBlockingQueue<>(),
                 new CustomThreadFactory("Sync-Thread-Pool"),
-                new CustomRejectedExecutionHandler());
+                new ThreadPoolExecutor.DiscardOldestPolicy());
         pool.allowCoreThreadTimeOut(true);
         return pool;
     }
@@ -32,8 +32,12 @@ public class CachedThreadPool extends ThreadPoolMonitor {
     @Override
     public void test() {
         Long start = System.currentTimeMillis();
-        for (int i = 1; i <= 8; i++) {
-            pool.execute(new MyTask(i));
+        for (int i = 1; i <= 10000; i++) {
+            try{
+                pool.execute(new MyTask(i));
+            }catch (RejectedExecutionException e){
+                e.printStackTrace();
+            }
         }
         logger.info("用时：" + String.valueOf(System.currentTimeMillis() - start));
     }
